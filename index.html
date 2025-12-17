@@ -525,7 +525,7 @@
             <div class="page-border"></div>
             <div class="summary-content">
                 <h2 class="section-title">The Receipt</h2>
-                <div class="section-subtitle">Total Cost: 0 (except if you chose shopping because i'd go bankrupt)</div>
+                <div class="section-subtitle"></div>
 
                 <div class="receipt-style" id="receipt-body">
                     </div>
@@ -536,7 +536,6 @@
 
                 <div class="nav-buttons">
                     <button onclick="turnPage('summary', 'back')">← Make Changes</button>
-                    <button onclick="window.print()">Print This 🖨️</button>
                 </div>
             </div>
         </div>
@@ -660,7 +659,7 @@
 
             const total = document.createElement('div');
             total.className = 'total-line';
-            total.innerText = "TOTAL: 0";
+            total.innerText = "Total cost: 0 (except if you chose shopping because i'd go bankrupt)";
             container.appendChild(total);
         }
     </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Carte d'Amour 💝</title>
+    <title>Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -351,7 +351,7 @@
         <div class="page cover" id="page-cover" onclick="turnPage('cover')">
             <div class="cover-border">
                 <h1>The Birthday<br>Menu</h1>
-                <div class="subtitle">Specially Curated For You</div>
+                <div class="subtitle">Specially Curated by Mako</div>
                 <div style="font-size: 2em; margin: 20px;">❦</div>
                 <div class="click-hint">Tap to Open</div>
             </div>
@@ -367,8 +367,17 @@
                     <div class="menu-item" onclick="toggleSelection('morning', 'pancakes', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Fluffy Pancakes</div>
-                            <div class="item-desc">Served with maple syrup & fresh berries</div>
+                            <div class="item-name">Belli Pancakes</div>
+                            <div class="item-desc">With berries (optional)</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+					
+					<div class="menu-item" onclick="toggleSelection('morning', 'tea', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Tea</div>
+                            <div class="item-desc">Zenzero & Menta</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -377,7 +386,7 @@
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
                             <div class="item-name">Eggs Royale</div>
-                            <div class="item-desc">Your style eggs, artisanal toast, avocado</div>
+                            <div class="item-desc">Sunny Side Up Eggs on Bread</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -390,20 +399,11 @@
                         </div>
                         <div class="price">♥</div>
                     </div>
-
-                    <div class="menu-item" onclick="toggleSelection('morning', 'coffee', this)">
-                        <div class="checkbox-space">☐</div>
-                        <div class="item-details">
-                            <div class="item-name">Coffee Run</div>
-                            <div class="item-desc">We go to your favorite café together</div>
-                        </div>
-                        <div class="price">♥</div>
-                    </div>
                 </div>
 
                 <div class="nav-buttons">
                     <button disabled style="opacity:0; cursor:default">Back</button>
-                    <button onclick="turnPage('morning')">Next Course →</button>
+                    <button onclick="turnPage('morning')">Next →</button>
                 </div>
             </div>
         </div>
@@ -413,13 +413,14 @@
             <div class="page-content" style="height: 100%; display: flex; flex-direction: column;">
                 <h2 class="section-title">Afternoon</h2>
                 <div class="section-subtitle">Adventures & Leisure</div>
+				
 
                 <div class="menu-items">
-                    <div class="menu-item" onclick="toggleSelection('afternoon', 'walk', this)">
+					<div class="menu-item" onclick="toggleSelection('afternoon', 'coffee', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Nature Walk</div>
-                            <div class="item-desc">A peaceful stroll in the park or woods</div>
+                            <div class="item-name">Coffee Run</div>
+                            <div class="item-desc">We go to drink a very nice coffee</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -428,7 +429,16 @@
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
                             <div class="item-name">Private Cinema</div>
-                            <div class="item-desc">Movie theater or home theater setup</div>
+                            <div class="item-desc">Home cinema (with really nice smelling setup) we watch Moana 2</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+					
+					<div class="menu-item" onclick="toggleSelection('afternoon', 'cinemaReal', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Real Cinema</div>
+                            <div class="item-desc">We go see Zootopia 2 at the cinema</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -436,8 +446,8 @@
                     <div class="menu-item" onclick="toggleSelection('afternoon', 'shopping', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Shopping Spree</div>
-                            <div class="item-desc">Let's treat you to something nice</div>
+                            <div class="item-name">Shopping</div>
+                            <div class="item-desc">Buyare è sempre bello</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -445,8 +455,17 @@
                     <div class="menu-item" onclick="toggleSelection('afternoon', 'nap', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Afternoon Nap</div>
-                            <div class="item-desc">Recharge with zero disturbances</div>
+                            <div class="item-name">Afternoon Chill</div>
+                            <div class="item-desc">Marko I also want to chill a bit alone bruh</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+					
+					<div class="menu-item" onclick="toggleSelection('afternoon', 'lunch', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Lunch fatto da Marko <span class="mandatory-badge">Included</span></div>
+                            <div class="item-desc">Sorpresa (solo perchè non so neanche io cosa fare)</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -454,7 +473,7 @@
 
                 <div class="nav-buttons">
                     <button onclick="turnPage('afternoon', 'back')">← Back</button>
-                    <button onclick="turnPage('afternoon')">Next Course →</button>
+                    <button onclick="turnPage('afternoon')">Next →</button>
                 </div>
             </div>
         </div>
@@ -469,8 +488,8 @@
                     <div class="menu-item" onclick="toggleSelection('evening', 'dinner', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Candlelit Dinner</div>
-                            <div class="item-desc">Home cooked or that restaurant you love</div>
+                            <div class="item-name">Dinner at a restaurant</div>
+                            <div class="item-desc">Options are: Ramen, Sushi, Pizza, Kebab, altro(?)</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
@@ -479,28 +498,20 @@
                         <div class="checkbox-space" style="color:#b8860b">★</div>
                         <div class="item-details">
                             <div class="item-name">Relaxing Massage <span class="mandatory-badge">Included</span></div>
-                            <div class="item-desc">Non-negotiable pampering session</div>
+                            <div class="item-desc">Non-negotiable massaggini</div>
                         </div>
                         <div class="price">Free</div>
                     </div>
 
-                    <div class="menu-item" onclick="toggleSelection('evening', 'stars', this)">
+                    <div class="menu-item" onclick="toggleSelection('evening', 'bath', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Stargazing</div>
-                            <div class="item-desc">Night walk and looking up at the sky</div>
+                            <div class="item-name">Relaxing bath <span class="mandatory-badge">Included</span></div>
+                            <div class="item-desc">Non-negotiable relaxing bath</div>
                         </div>
                         <div class="price">♥</div>
                     </div>
                     
-                    <div class="menu-item" onclick="toggleSelection('evening', 'dessert', this)">
-                        <div class="checkbox-space">☐</div>
-                        <div class="item-details">
-                            <div class="item-name">Midnight Dessert</div>
-                            <div class="item-desc">Something sweet to end the day</div>
-                        </div>
-                        <div class="price">♥</div>
-                    </div>
                 </div>
 
                 <div class="nav-buttons">
@@ -514,7 +525,7 @@
             <div class="page-border"></div>
             <div class="summary-content">
                 <h2 class="section-title">The Receipt</h2>
-                <div class="section-subtitle">Total Cost: A lifetime of love</div>
+                <div class="section-subtitle">Total Cost: 0 (except if you chose shopping because i'd go bankrupt)</div>
 
                 <div class="receipt-style" id="receipt-body">
                     </div>

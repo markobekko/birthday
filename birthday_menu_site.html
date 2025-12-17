@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Carte d'Amour 💝</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #1a1a1a;
+            background-image: radial-gradient(#2c2c2c 15%, transparent 16%), radial-gradient(#2c2c2c 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            perspective: 2000px; /* Deeper perspective for better 3D effect */
+            overflow: hidden;
+        }
+
+        .menu-book {
+            width: 95%;
+            max-width: 800px;
+            height: 650px; /* Slightly taller */
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fdfbf7;
+            /* Vintage paper texture effect */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            border-radius: 4px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.3);
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            border: 1px solid #d4c5b0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Z-Index Stacking - Crucial for fixing the "First Page" bug */
+        #page-cover { z-index: 100; }
+        #page-morning { z-index: 90; }
+        #page-afternoon { z-index: 80; }
+        #page-evening { z-index: 70; }
+        #page-summary { z-index: 60; }
+
+        /* The Ornamental Border inside pages */
+        .page-border {
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 2px solid #8b4513;
+            pointer-events: none;
+        }
+        
+        .page-border::before, .page-border::after {
+            content: "❧";
+            position: absolute;
+            font-size: 30px;
+            color: #8b4513;
+            background: #fdfbf7;
+            padding: 0 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .page-border::before { top: -20px; }
+        .page-border::after { bottom: -20px; content: "❦"; }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+        
+        /* Hiding content when flipped to keep performance high and avoid glitches */
+        .page.flipped .page-content {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        /* Cover Specifics */
+        .cover {
+            background: #2c1810; /* Dark Leather color */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid #5d4037;
+            color: #e5c185; /* Gold text */
+            cursor: pointer;
+        }
+
+        .cover-border {
+            border: 2px solid #e5c185;
+            padding: 40px;
+            width: 80%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .cover .subtitle {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        .click-hint {
+            margin-top: 50px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Typography */
+        h2.section-title {
+            font-family: 'Great Vibes', cursive;
+            color: #8b4513;
+            font-size: 4em;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            border-bottom: 1px solid #d4c5b0;
+            padding-bottom: 15px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Menu Items */
+        .menu-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* Custom Scrollbar */
+        .menu-items::-webkit-scrollbar { width: 6px; }
+        .menu-items::-webkit-scrollbar-thumb { background: #d4c5b0; border-radius: 3px; }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-bottom: 1px dashed #d4c5b0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: rgba(139, 69, 19, 0.05);
+            padding-left: 20px;
+        }
+
+        .menu-item.selected {
+            background: rgba(139, 69, 19, 0.1);
+        }
+
+        .menu-item.selected .item-name {
+            font-weight: bold;
+            color: #8b4513;
+        }
+
+        .checkbox-space {
+            width: 30px;
+            font-size: 1.2em;
+            color: #8b4513;
+            display: flex;
+            justify-content: center;
+        }
+
+        .item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .item-desc {
+            font-size: 0.85em;
+            color: #777;
+            font-style: italic;
+        }
+
+        /* MANDATORY ITEM STYLING */
+        .menu-item.mandatory {
+            background: linear-gradient(to right, rgba(255, 215, 0, 0.1), transparent);
+            border: 1px solid #daa520;
+            border-radius: 8px;
+            cursor: default;
+        }
+        
+        .menu-item.mandatory .item-name {
+            color: #b8860b;
+            font-weight: bold;
+        }
+        
+        .mandatory-badge {
+            font-size: 0.7em;
+            background: #b8860b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .price {
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            color: #8b4513;
+            font-size: 1.1em;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            border-top: 1px solid #d4c5b0;
+            padding-top: 20px;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid #8b4513;
+            padding: 10px 25px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1em;
+            color: #8b4513;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        button:hover {
+            background: #8b4513;
+            color: #fff;
+        }
+
+        /* Summary */
+        .summary-content {
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .receipt-style {
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            flex: 1;
+            border-top: 5px solid #8b4513;
+            border-bottom: 5px solid #8b4513;
+            position: relative;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 5px;
+        }
+
+        .total-line {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #8b4513;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .menu-book { height: 80vh; width: 95%; }
+            h2.section-title { font-size: 3em; }
+            .cover h1 { font-size: 2.5em; }
+            .page { padding: 25px; }
+            .item-name { font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-book">
+        
+        <div class="page cover" id="page-cover" onclick="turnPage('cover')">
+            <div class="cover-border">
+                <h1>The Birthday<br>Menu</h1>
+                <div class="subtitle">Specially Curated For You</div>
+                <div style="font-size: 2em; margin: 20px;">❦</div>
+                <div class="click-hint">Tap to Open</div>
+            </div>
+        </div>
+
+        <div class="page" id="page-morning">
+            <div class="page-border"></div>
+            <div class="page-content" style="height: 100%; display: flex; flex-direction: column;">
+                <h2 class="section-title">Morning</h2>
+                <div class="section-subtitle">A gentle start to a beautiful day</div>
+                
+                <div class="menu-items">
+                    <div class="menu-item" onclick="toggleSelection('morning', 'pancakes', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Fluffy Pancakes</div>
+                            <div class="item-desc">Served with maple syrup & fresh berries</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="toggleSelection('morning', 'eggs', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Eggs Royale</div>
+                            <div class="item-desc">Your style eggs, artisanal toast, avocado</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('morning', 'bed', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Breakfast in Bed</div>
+                            <div class="item-desc">Stay cozy, I'll bring everything to you</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('morning', 'coffee', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Coffee Run</div>
+                            <div class="item-desc">We go to your favorite café together</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button disabled style="opacity:0; cursor:default">Back</button>
+                    <button onclick="turnPage('morning')">Next Course →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-afternoon">
+            <div class="page-border"></div>
+            <div class="page-content" style="height: 100%; display: flex; flex-direction: column;">
+                <h2 class="section-title">Afternoon</h2>
+                <div class="section-subtitle">Adventures & Leisure</div>
+
+                <div class="menu-items">
+                    <div class="menu-item" onclick="toggleSelection('afternoon', 'walk', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Nature Walk</div>
+                            <div class="item-desc">A peaceful stroll in the park or woods</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('afternoon', 'cinema', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Private Cinema</div>
+                            <div class="item-desc">Movie theater or home theater setup</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('afternoon', 'shopping', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Shopping Spree</div>
+                            <div class="item-desc">Let's treat you to something nice</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('afternoon', 'nap', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Afternoon Nap</div>
+                            <div class="item-desc">Recharge with zero disturbances</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button onclick="turnPage('afternoon', 'back')">← Back</button>
+                    <button onclick="turnPage('afternoon')">Next Course →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-evening">
+            <div class="page-border"></div>
+            <div class="page-content" style="height: 100%; display: flex; flex-direction: column;">
+                <h2 class="section-title">Evening</h2>
+                <div class="section-subtitle">The Grand Finale</div>
+
+                <div class="menu-items">
+                    <div class="menu-item" onclick="toggleSelection('evening', 'dinner', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Candlelit Dinner</div>
+                            <div class="item-desc">Home cooked or that restaurant you love</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+
+                    <div class="menu-item mandatory" onclick="toggleSelection('evening', 'massage', this)">
+                        <div class="checkbox-space" style="color:#b8860b">★</div>
+                        <div class="item-details">
+                            <div class="item-name">Relaxing Massage <span class="mandatory-badge">Included</span></div>
+                            <div class="item-desc">Non-negotiable pampering session</div>
+                        </div>
+                        <div class="price">Free</div>
+                    </div>
+
+                    <div class="menu-item" onclick="toggleSelection('evening', 'stars', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Stargazing</div>
+                            <div class="item-desc">Night walk and looking up at the sky</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="toggleSelection('evening', 'dessert', this)">
+                        <div class="checkbox-space">☐</div>
+                        <div class="item-details">
+                            <div class="item-name">Midnight Dessert</div>
+                            <div class="item-desc">Something sweet to end the day</div>
+                        </div>
+                        <div class="price">♥</div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button onclick="turnPage('evening', 'back')">← Back</button>
+                    <button onclick="turnPage('evening')">View Receipt →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-summary">
+            <div class="page-border"></div>
+            <div class="summary-content">
+                <h2 class="section-title">The Receipt</h2>
+                <div class="section-subtitle">Total Cost: A lifetime of love</div>
+
+                <div class="receipt-style" id="receipt-body">
+                    </div>
+                
+                <div class="final-message" style="font-family: 'Great Vibes', cursive; font-size: 1.8em; margin: 10px 0;">
+                    Happy Birthday!
+                </div>
+
+                <div class="nav-buttons">
+                    <button onclick="turnPage('summary', 'back')">← Make Changes</button>
+                    <button onclick="window.print()">Print This 🖨️</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const selections = {
+            morning: {},
+            afternoon: {},
+            evening: {
+                'massage': true // MANDATORY: Pre-selected
+            }
+        };
+
+        const pageOrder = ['cover', 'morning', 'afternoon', 'evening', 'summary'];
+        let currentPageIndex = 0;
+
+        function toggleSelection(section, itemId, element) {
+            // Check if mandatory
+            if (element.classList.contains('mandatory')) {
+                // Optional: Add a shake animation or visual feedback that it can't be changed
+                element.style.transform = "scale(1.02)";
+                setTimeout(() => element.style.transform = "scale(1)", 200);
+                return; 
+            }
+
+            // Normal toggle
+            selections[section][itemId] = !selections[section][itemId];
+            
+            // Visual Update
+            const checkbox = element.querySelector('.checkbox-space');
+            if (selections[section][itemId]) {
+                element.classList.add('selected');
+                checkbox.innerHTML = '☑';
+            } else {
+                element.classList.remove('selected');
+                checkbox.innerHTML = '☐';
+            }
+        }
+
+        function turnPage(pageId, direction = 'forward') {
+            const el = document.getElementById('page-' + pageId);
+            
+            if (direction === 'forward') {
+                el.classList.add('flipped');
+                currentPageIndex++;
+                if (pageOrder[currentPageIndex] === 'summary') {
+                    generateReceipt();
+                }
+            } else {
+                // Going back: we need to unflip the PREVIOUS page in the array
+                // If we are on Afternoon (index 2) and hit back, we want Afternoon to unflip? 
+                // No, the logic is: to go back from Afternoon to Morning, we unflip Morning? 
+                // Wait, the stack logic:
+                // Cover is top. Morning under it. 
+                // To see Morning, Cover flips. 
+                // To see Afternoon, Morning flips.
+                // To go BACK to Morning from Afternoon, Morning must Un-flip.
+                
+                const prevPageIndex = currentPageIndex - 1;
+                const prevPageId = pageOrder[prevPageIndex];
+                const prevEl = document.getElementById('page-' + prevPageId);
+                
+                prevEl.classList.remove('flipped');
+                currentPageIndex--;
+            }
+        }
+
+        function generateReceipt() {
+            const container = document.getElementById('receipt-body');
+            container.innerHTML = '';
+            
+            let hasItems = false;
+            
+            // Helper to clean names
+            const cleanName = (str) => {
+                // Simple hack to get name from HTML structure or hardcoded map
+                // For this demo, I'll pull from the DOM based on selection
+                return str;
+            };
+
+            const sections = ['morning', 'afternoon', 'evening'];
+            
+            sections.forEach(section => {
+                const selectedKeys = Object.keys(selections[section]).filter(k => selections[section][k]);
+                
+                if (selectedKeys.length > 0) {
+                    const sectionHeader = document.createElement('div');
+                    sectionHeader.style.fontWeight = 'bold';
+                    sectionHeader.style.marginTop = '10px';
+                    sectionHeader.style.textTransform = 'uppercase';
+                    sectionHeader.innerText = `--- ${section} ---`;
+                    container.appendChild(sectionHeader);
+
+                    selectedKeys.forEach(key => {
+                        hasItems = true;
+                        // Find the name in the DOM to keep it simple
+                        // Note: In a real app, use a data object mapping keys to names
+                        let name = key.charAt(0).toUpperCase() + key.slice(1);
+                        if(key === 'massage') name = "MANDATORY MASSAGE";
+                        
+                        const row = document.createElement('div');
+                        row.className = 'receipt-item';
+                        row.innerHTML = `<span>${name}</span><span>♥</span>`;
+                        container.appendChild(row);
+                    });
+                }
+            });
+
+            if (!hasItems) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Nothing selected yet...<br>(Except the mandatory massage!)</div>';
+            }
+
+            const total = document.createElement('div');
+            total.className = 'total-line';
+            total.innerText = "TOTAL: ALL MY LOVE";
+            container.appendChild(total);
+        }
+    </script>
+</body>
+</html>

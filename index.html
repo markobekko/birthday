@@ -637,7 +637,11 @@
                         // Find the name in the DOM to keep it simple
                         // Note: In a real app, use a data object mapping keys to names
                         let name = key.charAt(0).toUpperCase() + key.slice(1);
-                        if(key === 'massage') name = "MANDATORY MASSAGE";
+						if(key === 'massage') name = "MANDATORY MASSAGGINI";
+						if(key === 'bath') name = "MANDATORY BATH";
+						if(key === 'lunch') name = "Lunch";
+						if(key === 'cinemaReal') name = "Real Cinema";
+						if(key === 'cinema') name = "Home Cinema";
                         
                         const row = document.createElement('div');
                         row.className = 'receipt-item';

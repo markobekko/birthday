@@ -512,11 +512,11 @@
                         <div class="price"></div>
                     </div>
 
-                    <div class="menu-item mandatory" onclick="toggleSelection('evening', 'massage', this)">
-                        <div class="checkbox-space" style="color:#b8860b">★</div>
+                    <div class="menu-item" onclick="toggleSelection('evening', 'massage', this)">
+                        <div class="checkbox-space" style="color:#b8860b">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Relaxing Massage <span class="mandatory-badge">Included</span></div>
-                            <div class="item-desc">Non-negotiable massaggini</div>
+                            <div class="item-name">Relaxing Massage</div>
+                            <div class="item-desc">With/without oil</div>
                         </div>
                         <div class="price"></div>
                     </div>
@@ -575,8 +575,7 @@
             afternoon: {
 				'lunch': true
 			},
-            evening: {
-                'massage': true, // MANDATORY: Pre-selected
+            evening: { // MANDATORY: Pre-selected
 				'bath': true
             }
         };

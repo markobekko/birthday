@@ -464,7 +464,7 @@
                     <div class="menu-item" onclick="toggleSelection('afternoon', 'chill', this)">
                         <div class="checkbox-space">☐</div>
                         <div class="item-details">
-                            <div class="item-name">Afternoon Chill</div>
+                            <div class="item-name">Afternoon Chill Alone</div>
                             <div class="item-desc">Marko I also want to chill a bit alone bruh</div>
                         </div>
                         <div class="price"></div>
@@ -673,7 +673,7 @@
                         
                         const row = document.createElement('div');
                         row.className = 'receipt-item';
-                        row.innerHTML = `<span>${name}</span><span>♥</span>`;
+                        row.innerHTML = `<span>${name}</span><span></span>`;
                         container.appendChild(row);
                     });
                 }
